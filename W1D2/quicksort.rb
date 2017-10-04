@@ -11,10 +11,7 @@ def quicksort(array)
   array.each do |el|
     right_side << el if el > pivot_el
   end
-  # p left_side + [pivot_el]
-  # p pivot_el
-  # p right_side
-  # p left_side
+  
   quicksort(left_side) + [pivot_el] + quicksort(right_side)
 end
 
