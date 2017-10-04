@@ -8,7 +8,7 @@ class AiPlayer
   end
 
   def take_turn
-    puts "Make move"
+    puts "Press enter to continue"
     gets.chomp
 
       if @known_cards.values != @known_cards.values.uniq
@@ -33,9 +33,6 @@ class AiPlayer
           display
           puts ""
 
-          p @known_cards.values
-          p @matched_cards
-
           if @known_cards.values != @known_cards.values.uniq
             array = []
             @known_cards.each do |k, v|
@@ -55,15 +52,11 @@ class AiPlayer
             @known_cards[[x2, y2]] = @board.grid[x2][y2].value
             @board.grid[x2][y2].reveal
             display
-
-            p @known_cards.values
-            p @matched_cards
           end
 
         check_match(x1, x2, y1, y2)
       end
-      p @known_cards.values
-      p @matched_cards.length
+
     end
 
 

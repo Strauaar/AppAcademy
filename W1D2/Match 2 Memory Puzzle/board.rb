@@ -13,14 +13,21 @@ class Board
       cards << card
       cards << card.dup
     end
-    until is_full?
-      i, j = rand(0..4), rand(0..5)
-      o, l = rand(0..4), rand(0..5)
-      if !grid[i][j] && !grid[o][l]
+    cards.shuffle!
+    # until is_full?
+    #   # i, j = rand(0..4), rand(0..5)
+    #   # o, l = rand(0..4), rand(0..5)
+    #
+    #   if !grid[i][j] && !grid[o][l]
+    #     @grid[i][j] = cards.pop
+    #     @grid[o][l] = cards.pop
+    #   end
+    (0..4).to_a.each do |i|
+       (0..5).to_a.each do |j|
         @grid[i][j] = cards.pop
-        @grid[o][l] = cards.pop
       end
     end
+
   end
 
   def is_full?
@@ -33,6 +40,7 @@ class Board
   end
 
   def render
+    system("clear")
     result = []
     @grid.each do |i|
       result << i.map do |card|

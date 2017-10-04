@@ -22,7 +22,7 @@ class Game
   def over?
     @board.grid.each do |array|
       array.each do |card|
-        return false if card.flipped == false
+        return false if card == nil || card.flipped == false
       end
     end
     true
