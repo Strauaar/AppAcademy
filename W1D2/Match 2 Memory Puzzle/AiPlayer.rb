@@ -8,7 +8,7 @@ class AiPlayer
   end
 
   def take_turn
-    puts "Press enter to continue"
+    puts "Press enter for a move"
     gets.chomp
 
       if @known_cards.values != @known_cards.values.uniq
@@ -19,12 +19,18 @@ class AiPlayer
         move1 = array[0]
         move2 = array[1]
         @board.grid[move1[0]][move1[1]].reveal
+        display
+        puts ""
+        puts "Press enter to continue for next move"
+        gets.chomp
+
         @board.grid[move2[0]][move2[1]].reveal
+        display
         @matched_cards << move1
         @matched_cards << move2
         @known_cards.delete(move1)
         @known_cards.delete(move2)
-        display
+        check_match(move1[0], move2[0], move1[1], move2[1])
       else
 
           x1, y1 = random_move
@@ -32,6 +38,8 @@ class AiPlayer
           @board.grid[x1][y1].reveal
           display
           puts ""
+          puts "Press enter to continue for next move"
+          gets.chomp
 
           if @known_cards.values != @known_cards.values.uniq
             array = []
@@ -42,11 +50,12 @@ class AiPlayer
             x2 = move2[0]
             y2 = move2[1]
             @board.grid[x2][y2].reveal
+            display
             @matched_cards << move2
             @matched_cards << [x1,y1]
             @known_cards.delete([x1,y1])
             @known_cards.delete(move2)
-            display
+
           else
             x2, y2 = random_move
             @known_cards[[x2, y2]] = @board.grid[x2][y2].value
