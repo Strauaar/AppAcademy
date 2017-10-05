@@ -64,6 +64,9 @@ class AiPlayer
           end
 
         check_match(x1, x2, y1, y2)
+        display
+        puts "Ready for another pair" unless @board.is_full?
+
       end
 
     end
@@ -89,6 +92,17 @@ class AiPlayer
     else
       puts "It's a match"
     end
+    sleep(0.4)
+    puts ""
+    sleep(0.4)
+    # time = Time.new
+    # until (Time.new - time >= 1)
+    #   display
+    #
+    #   t = Time.new - time
+    #   puts "Wait #{(1 - t).round(2)}"
+    #   sleep(0.02)
+    # end
   end
 
   def display

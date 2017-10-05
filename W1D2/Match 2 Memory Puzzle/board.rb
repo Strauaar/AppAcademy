@@ -41,19 +41,40 @@ class Board
 
   def render
     system("clear")
-    result = []
-    @grid.each do |i|
-      result << i.map do |card|
-        if card.flipped
-          card.value
+    # result = []
+    # @grid.each do |i|
+    #   result << i.map do |card|
+    #     if card.flipped
+    #       card.value
+    #     else
+    #       "-"
+    #     end
+    #   end
+    # end
+    # result.each do |i|
+    #   p i
+    # end
+
+    puts render_index
+    @grid.each_with_index do |row, i|
+      puts "#{i} #{row.map {|card| card.value unless card.flipped == false}.join(" ")}"
+    end
+  end
+
+  def render_index
+    index = " "
+    one = []
+    @grid.each_with_index do |row, i|
+      row.each_with_index do |card, j|
+        one << j
+        if card.value > 9 && card.flipped == true
+          index << " #{j}" if one.count(j) < 2
         else
-          "-"
+          index << "#{j}" if one.count(j) < 2
         end
       end
     end
-    result.each do |i|
-      p i
-    end
+    index
   end
 
 end
