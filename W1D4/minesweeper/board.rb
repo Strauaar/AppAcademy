@@ -1,8 +1,8 @@
 require_relative 'tile'
-
+require 'byebug'
 class Board
 
-  attr_accessor :arr_bomb, :grid, :lost
+  attr_accessor :arr_bomb, :grid, :lost, :tile_map_bombs, :tile_map_reveals
 
   def initialize
     @lost = false
@@ -10,6 +10,8 @@ class Board
       Array.new(9) { Tile.new(false) }
     }
     scatter_bombs
+    make_tile_hash
+    @tile_map_reveals = Hash.new { |h,k| h[k] = 0 }
   end
 
   def scatter_bombs
@@ -35,7 +37,7 @@ class Board
           if tile.is_bomb
             print " B "
           else
-            print adjacent_count(i, j) == " 0 "  ? " - " : adjacent_count(i, j).to_s
+            print adjacent_bomb_count(i, j) == " 0 "  ? " - " : adjacent_bomb_count(i, j).to_s
           end
         elsif tile.is_flagged
           print " F "
@@ -54,7 +56,7 @@ class Board
     @grid[x][y].flag
   end
 
-  def adjacent_count(i, j)
+  def adjacent_bomb_count(i, j)
     count = 0
     low_x = (i == 0 ? 0 : (i-1))
     low_y = (j == 0 ? 0 : (j-1))
@@ -65,7 +67,7 @@ class Board
 
     for x in (low_x..high_x)
       for y in (low_y..high_y)
-        next if @grid[x][y] == nil
+        next if x == i && y == j
         count += 1 if @arr_bomb.include?([x,y])
       end
     end
@@ -84,13 +86,45 @@ class Board
       if tile.is_bomb
         @lost = true
       else
-        reveal_adjacent(x,y)
+        map_tile_reveals(x,y)
+        reveal_adjacent(x,y) unless @tile_map_bombs[[x,y]] > 0
+
       end
     end
   end
 
   def reveal_adjacent(i, j)
-    return if adjacent_count(i, j).to_i > 0
+    debugger
+    return [] if @tile_map_bombs[[i,j]] > 0
+
+    low_x = (i == 0 ? 0 : (i-1))
+    low_y = (j == 0 ? 0 : (j-1))
+
+    high_x = (i == 8 ? 8 : (i+1))
+    high_y = (j == 8 ? 8 : (j+1))
+
+    tile_indices = @tile_map_bombs.keys
+    index = []
+    for x in (low_x..high_x)
+      for y in (low_y..high_y)
+        next if @grid[x][y].revealed
+        reveal_adjacent(x,y) unless @tile_map_bombs[[x,y]] >= 1
+      end
+    end
+  end
+
+  #TODO Push all indexes to be revealed into an array and set reveal value to true
+
+  def make_tile_hash
+    @tile_map_bombs = {}
+    for i in (0..8)
+      for j in (0..8)
+        @tile_map_bombs[[i,j]] = adjacent_bomb_count(i,j).to_i
+      end
+    end
+  end
+
+  def map_tile_reveals(i,j)
     low_x = (i == 0 ? 0 : (i-1))
     low_y = (j == 0 ? 0 : (j-1))
 
@@ -99,11 +133,39 @@ class Board
 
     for x in (low_x..high_x)
       for y in (low_y..high_y)
-
-        @grid[x][y].reveal unless @grid[x][y].is_bomb
-        
+        next if x == i && y == j
+        @tile_map_reveals[[x,y]] += 1
       end
     end
+
+  end
+  # def tile_map_reveals
+  #   # @tile_map_reveals = {}
+  #   # for i in (0..8)
+  #   #   for j in (0..8)
+  #   #     @tile_map_reveals[[i,j]] = adjacent_reveal_count(i,j).to_i
+  #   #   end
+  #   # end
+  #
+  #
+  # end
+
+  def adjacent_reveal_count(i, j)
+    count = 0
+    low_x = (i == 0 ? 0 : (i-1))
+    low_y = (j == 0 ? 0 : (j-1))
+
+    high_x = (i == 8 ? 8 : (i+1))
+    high_y = (j == 8 ? 8 : (j+1))
+
+    for x in (low_x..high_x)
+      for y in (low_y..high_y)
+        next if x == i && y == j
+        count += 1 if @grid[x][y].revealed
+      end
+    end
+
+    count
 
   end
 
