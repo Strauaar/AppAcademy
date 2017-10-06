@@ -9,8 +9,11 @@ class Game
 
     def run
       render
-      make_play
-      render
+      until @board.lost
+        make_play
+        render
+      end
+      puts "You lost"
     end
 
     def get_position
@@ -56,9 +59,9 @@ class Game
     end
 
     def render
+      system("clear")
       @board.render
     end
-
 
 end
 
