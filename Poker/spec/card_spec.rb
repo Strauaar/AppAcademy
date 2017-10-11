@@ -2,7 +2,7 @@ require 'rspec'
 require 'card'
 
 RSpec.describe Card do
-  let(:card) { Card.new(13, :hearts) }
+  let(:card) { Card.new(:hearts, 13) }
   describe "#initialize" do
     it "should have a value" do
       expect(card.value).to eq(13)

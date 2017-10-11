@@ -1,5 +1,7 @@
 class Deck
 
+  attr_accessor :deck
+
   def initialize
     @deck = []
     populate
