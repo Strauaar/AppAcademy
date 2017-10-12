@@ -39,25 +39,72 @@ RSpec.describe Hand do
 
     context "check for valid hand" do
 
-      it "will return royal flush"
+      it "will return royal flush" do
+        royal_flush = (10..14).map { |value| Card.new(:hearts, value) }
+        expect(check_hand(royal_flush)).to eq(:royal_flush)
+      end
 
-      it "will return straight flush"
+      it "will return straight flush" do
+        straight_flush = (9..13).map { |value| Card.new(:hearts, value) }
+        expect(check_hand(straight_flush)).to eq(:straight_flush)
+      end
 
-      it "will return 4-of-a-kind"
+      it "will return 4-of-a-kind" do
+        four_of_a_kind =  [ Card.new(:hearts, 9), Card.new(:diamonds, 9),
+                            Card.new(:spades, 9), Card.new(:clubs, 9),
+                            Card.new(:hearts, 5) ]
 
-      it "will return full house"
+        expect(check_hand(four_of_a_kind)).to eq(:four_of_a_kind)
+      end
 
-      it "will return flush"
+      it "will return full house" do
+        full_house = [ Card.new(:hearts, 9), Card.new(:diamonds, 9),
+                       Card.new(:spades, 9), Card.new(:clubs, 5),
+                       Card.new(:hearts, 5) ]
+        expect(check_hand(full_house)).to eq(:full_house)
+      end
 
-      it "will return straight"
+      it "will return flush" do
+        flush = [ Card.new(:hearts, 6), Card.new(:hearts, 7),
+                  Card.new(:hearts, 9), Card.new(:hearts, 5),
+                  Card.new(:hearts, 14) ]
+        expect(check_hand(flush)).to eq(:flush)
+      end
 
-      it "will return 3-of-a-kind"
+      it "will return straight" do
+        straight = [ Card.new(:hearts, 2), Card.new(:hearts, 3),
+                     Card.new(:spades, 4), Card.new(:hearts, 5),
+                     Card.new(:hearts, 6) ]
+        expect(check_hand(straight)).to eq(:straight)
+      end
 
-      it "will return 2 pair"
+      it "will return 3-of-a-kind" do
+        three_of_a_kind = [ Card.new(:hearts, 9), Card.new(:diamonds, 9),
+                            Card.new(:spades, 9), Card.new(:clubs, 8),
+                            Card.new(:hearts, 5) ]
+        expect(check_hand(three_of_a_kind)).to eq(:three_of_a_kind)
+      end
 
-      it "will return pair"
+      it "will return 2 pair" do
+        two_pair = [ Card.new(:hearts, 8), Card.new(:diamonds, 9),
+                     Card.new(:spades, 9), Card.new(:clubs, 5),
+                     Card.new(:hearts, 5) ]
+        expect(check_hand(two_pair)).to eq(:two_pair)
+      end
 
-      it "will return highest value"
+      it "will return pair" do
+        pair = [ Card.new(:hearts, 8), Card.new(:diamonds, 9),
+                     Card.new(:spades, 7), Card.new(:clubs, 5),
+                     Card.new(:hearts, 5) ]
+        expect(check_hand(pair)).to eq(:pair)
+      end
+
+      it "will return highest value" do
+        trash = [ Card.new(:hearts, 14), Card.new(:diamonds, 9),
+                     Card.new(:spades, 7), Card.new(:clubs, 4),
+                     Card.new(:hearts, 5) ]
+        expect(check_hand(trash)).to eq(:trash)
+      end
 
     end
 
