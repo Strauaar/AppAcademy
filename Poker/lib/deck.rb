@@ -1,3 +1,5 @@
+require 'card.rb'
+
 class Deck
 
   attr_accessor :deck
@@ -5,6 +7,7 @@ class Deck
   def initialize
     @deck = []
     populate
+    shuffle!
   end
 
   def populate
@@ -15,6 +18,10 @@ class Deck
       end
     end
 
+  end
+
+  def shuffle!
+    @deck.shuffle!
   end
 
 end
