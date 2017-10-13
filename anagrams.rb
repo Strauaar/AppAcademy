@@ -53,3 +53,22 @@ end
 
 p abc_anagram("elvis", "sdfsds")
 p abc_anagram("elvis", "lives")
+
+def fourth_anagram?(str1, str2)
+
+  hash = Hash.new(0)
+
+  str1.chars.each do |ch|
+    hash[ch] += 1
+  end
+
+  str2.chars.each do |ch|
+    hash[ch] -= 1
+  end
+
+  hash.values.all? {|num| num == 0 }
+
+end
+
+p fourth_anagram?("elvis", "sdfsds")
+p fourth_anagram?("elvis", "lives")
