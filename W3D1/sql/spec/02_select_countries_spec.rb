@@ -48,7 +48,7 @@ describe 'SELECT from world' do
       expect(name_and_population).to contain_exactly(
         ["France", "60700000"],
         ["Germany", "82500000"],
-        ["Italy", "57200000"]  
+        ["Italy", "57200000"]
       )
     end
   end
@@ -58,7 +58,7 @@ describe 'SELECT from world' do
       expect(united_we_stand).to contain_exactly(
         ["United Arab Emirates"],
         ["United Kingdom"],
-        ["United States of America"] 
+        ["United States of America"]
       )
     end
   end
